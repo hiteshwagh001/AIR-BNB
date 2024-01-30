@@ -1,0 +1,233 @@
+<% layout("/layouts/boilerplate") -%>
+
+    <style>
+        .filters-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            /* left: 0; */
+            width: 100%;
+            /* Set a fixed width or use a percentage based on your design */
+            scrollbar-width: thin;
+            /* For Firefox */
+            -ms-overflow-style: none;
+            /* For IE and Edge */
+        }
+
+        .filters {
+            flex: 0 0 70%;
+            /* Allocate 70% width to filters */
+            display: inline-flex;
+            flex-wrap: nowrap;
+            width: 70%;
+
+        }
+
+        .filter {
+            text-align: center;
+            margin-right: 2rem;
+            margin-top: 1rem;
+            opacity: 0.7;
+        }
+
+        .filter:hover {
+            opacity: 1;
+            transition: all 200ms, opacity 400ms;
+            cursor: pointer;
+        }
+
+        .filter p {
+            font-size: 0.8rem;
+        }
+
+        .switch-container {
+            flex: 0 0 30%;
+            /* Allocate 30% width to the switch */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+
+        .filters-container::-webkit-scrollbar {
+            display: none;
+            /* For Chrome, Safari, and Opera */
+        }
+
+        .filters-container::-ms-scrollbar {
+            display: none;
+            /* For IE and Edge */
+        }
+
+        .tax-info {
+            display: none;
+        }
+
+        .tax-toggle {
+            border: solid 1px black;
+            width: fit-content;
+            border-radius: 1rem;
+            padding: .4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem;
+            box-shadow: 5px 5px 5px rgb(145, 145, 145);
+
+        }
+    </style>
+
+
+    <body>
+        <div class=" container filters-container">
+            <div class="row toprow ">
+                <div class="filters col-md-8">
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <p>Trending</p>
+                    </div>
+
+                    <div class="filter">
+                        <div>x
+                            <i class="fa-solid fa-bed"></i>
+                        </div>
+                        <p>Rooms</p>
+                    </div>
+
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-city"></i>
+                        </div>
+                        <p>Iconic cities</p>
+                    </div>
+
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-mountain-sun"></i>
+                        </div>
+                        <p>Mountains</p>
+                    </div>
+
+                    <div class="filter">
+                        <div>
+                            <i class="fa-brands fa-fort-awesome"></i>
+                        </div>
+                        <p>Castels</p>
+                    </div>
+
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-person-swimming"></i>
+                        </div>
+                        <p>Amazing Pools</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-umbrella-beach"></i>
+                        </div>
+                        <p>Beaches</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <p>lakes</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-tractor"></i>
+                        </div>
+                        <p>Farms</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-warehouse"></i>
+                        </div>
+                        <p>Tree Houses</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-regular fa-object-ungroup"></i>
+                        </div>
+                        <p>Design</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-earth-asia"></i>
+                        </div>
+                        <p>Top of word</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-caravan"></i>
+                        </div>
+                        <p>Camper vans</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-kitchen-set"></i>
+                        </div>
+                        <p>Chef kitchen</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-landmark-dome"></i>
+                        </div>
+                        <p>Domes</p>
+                    </div>
+                    <div class="filter">
+                        <div>
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <p>Boats</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tax-toggle col-md-4">
+                <div class="form-check-reverse form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                    <label class="form-check" for="flexSwitchCheckDefault">Display total after taxes</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                <% for (const listing of allListings) { %>
+                    <a href="/listings/<%=listing._id%>" class="col  listing-link">
+                        <div class="card">
+                            <img src="<%= listing.image.url %>" style="height: 20rem;" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= listing.title %>
+                                </h5>
+                                <p class="card-text">&#8377 <%= listing.price.toLocaleString("en-IN") %> /night</p>
+                                <i class="tax-info"> +18% GST <br><b>&#8377 <%= (listing.price+listing.price *
+                                            0.18).toLocaleString("en-IN") %> /night</b></i>
+                            </div>
+                        </div>
+                    </a>
+                    <% } %>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        let taxSwitch = document.getElementById("flexSwitchCheckDefault")
+        taxSwitch.addEventListener("click", () => {
+            let taxInfo = document.getElementsByClassName("tax-info")
+            if (taxSwitch.checked) {
+                for (let i = 0; i < taxInfo.length; i++) {
+                    taxInfo[i].style.display = "inline"
+                }
+            }
+            else {
+                for (let i = 0; i < taxInfo.length; i++) {
+                    taxInfo[i].style.display = "none"
+                }
+            }
+        })
+    </script>

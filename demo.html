@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .filters-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            width: 100%;
+            scrollbar-width: thin; /* For Firefox */
+            -ms-overflow-style: none; /* For IE and Edge */
+        }
+
+        .filters {
+            display: inline-flex;
+            flex-wrap: nowrap;
+        }
+
+        .filter {
+            text-align: center;
+            margin-right: 2rem;
+            margin-top: 1rem;
+            opacity: 0.7;
+        }
+
+        .filter:hover {
+            opacity: 1;
+            transition: all 200ms, opacity 400ms;
+            cursor: pointer;
+        }
+
+        .filter p {
+            font-size: 0.8rem;
+        }
+
+        .tax-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-check {
+            text-align: center;
+        }
+
+        .form-check-label {
+            margin-bottom: 0;
+        }
+
+        .filters-container::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
+        .filters-container::-ms-scrollbar {
+            display: none; /* For IE and Edge */
+        }
+    </style>
+    <title>Filters with Tax Toggle</title>
+</head>
+<body>
+    <div class="container filters-container">
+        <div class="row">
+            <div class="filters col-md-8">
+                <!-- Your filters here -->
+            </div>
+            <div class="tax-toggle col-md-4">
+                <div class="form-check-reverse form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                    <label class="form-check" for="flexSwitchCheckDefault">Display total after taxes</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

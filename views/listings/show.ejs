@@ -1,0 +1,141 @@
+<% layout("/layouts/boilerplate") -%>
+    <script>
+        const maptoken="<%=process.env.MAP_TOKEN%>"
+        const coordinates=<%-JSON.stringify(listing.geometry.coordinates)%>
+    </script>
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3>
+                <%=listing.title%>
+            </h3>
+        </div>
+        <div class="card col-8 offset-2">
+            <img src="<%=listing.image.url%>" class="card-img-top img-show" alt="<%=listing.title%>">
+
+            <div class="card-body mb">
+                <strong>Owner:</strong>
+                <i>
+                    <%=listing.owner.username%>
+                </i><br />
+            </div>
+            <div class="card-body">
+                <strong>Description:</strong>
+                <%=listing.description%>
+            </div>
+            <div class="card-body">
+                <strong>Price:</strong> &#8377 <%=listing.price.toLocaleString("en-IN")%>
+            </div>
+            <div class="card-body">
+                <strong>Location:</strong>
+                <%=listing.location%>
+            </div>
+            <div class="card-body">
+                <strong>Country:</strong>
+                <%=listing.country%>
+            </div>
+
+            <% if (currUser && currUser._id.equals(listing.owner._id)) {%>
+
+                <div class="card-footer mt-auto">
+                    <a href="/listings/<%=listing._id%>/edit" class="btn btn-primary">Edit Form</a>
+                    <form action="/listings/<%=listing._id%>?_method=DELETE" method="post" class="d-inline"
+                        id="deleteForm">
+                        <button type="submit" class="btn btn-danger">Delete Listing</button>
+                    </form>
+                </div>
+                <%}%>
+        </div>
+
+        <hr>
+        <%if (currUser){%>
+            <div class="card col-8 offset-2">
+                <!-- Existing Listing Details -->
+
+                <!-- Review Section with Background Color -->
+                <div class="card-body" style="background-color: #f8f9fa;">
+                    <h5>Add a Review</h5>
+                    <form action="/listings/<%=listing._id%>/review" method="post" class="needs-validation" novalidate>
+                        <!-- Rating Input with Bootstrap Slider -->
+
+
+                        <fieldset class="starability-heartbeat">
+                            <legend>First rating:</legend>
+                            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0"
+                                checked aria-label="No rating." />
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+
+                        <!-- Comment Input -->
+                        <div class="form-group">
+                            <label for="review[comment]">Comment:</label>
+                            <textarea name="review[comment]" id="comment" class="form-control" rows="3"
+                                required></textarea>
+                            <div class="invalid-feedback">
+                                Please provide a comment.
+                            </div>
+                            <div class="valid-feedback">
+                                Thanks for your feedback!
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success mt-3">Submit Review</button>
+                    </form>
+                </div>
+                <%}%>
+                    <!-- End Review Section -->
+
+                    <%if (listing.reviews.length>0){%>
+                        <!-- Display All Reviews -->
+                        <div class="card-body card col-8 offset-2">
+                            <h5>All Reviews</h5>
+                            <div class="row row-cols-1 row-cols-md-2">
+                                <% for (const review of listing.reviews) { %>
+                                    <div class="col  mb-4">
+                                        <div class="card  h-100">
+                                            <div class="card-body review-card">
+                                                <h6 class="card-subtitle mb-2 text-muted">
+                                                    @<%=review.author.username%>
+                                                </h6>
+                                                <div class="starability-result" data-rating="<%=review.rating%>"></div>
+                                                <strong>Comment:</strong>
+                                                <%= review.comment %>
+                                                    <br>
+                                                    <% if (currUser && currUser._id.equals(review.author._id)) {%>
+
+                                                        <form
+                                                            action="/listings/<%=listing._id%>/review/<%=review._id%>?_method=DELETE"
+                                                            method="post"><button type="submit"
+                                                                class="btn btn-sm btn-danger">Delete
+                                                                Review</button></form>
+                                                        <%}%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        </div>
+                        <%}%>
+
+                            <!-- End Display All Reviews -->
+
+            </div>
+            <div class="card-body card col-8 offset-1">
+                <h3>Where you'll be</h3>
+                <div id="map" class="map"></div>
+
+            </div>
+            <script src="/js/map.js"></script>
+
+            <!-- npm i @mapbox/mapbox-sdk  -->
+            <!-- this is used to donwload -->
